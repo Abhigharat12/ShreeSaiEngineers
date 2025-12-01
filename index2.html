@@ -45,6 +45,7 @@
             color: var(--dark);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         h1, h2, h3, h4 {
@@ -107,6 +108,9 @@
             transition: var(--transition);
             text-decoration: none;
             text-align: center;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
         }
 
         .btn:hover {
@@ -170,6 +174,7 @@
             display: flex;
             align-items: center;
             transition: var(--transition);
+            z-index: 1001;
         }
 
         .logo:hover {
@@ -186,7 +191,7 @@
             display: flex;
             list-style: none;
             align-items: center;
-            height: 100%;
+            /* height: 100%; */
             margin: 0;
             padding: 0;
         }
@@ -194,7 +199,7 @@
         .nav-links li {
             margin-left: 20px;
             position: relative;
-            height: 100%;
+            /* height: 100%; */
             display: flex;
             align-items: center;
         }
@@ -208,7 +213,7 @@
             display: flex;
             align-items: center;
             padding: 8px 5px;
-            height: 100%;
+            /* height: 100%; */
             position: relative;
         }
 
@@ -248,6 +253,10 @@
             box-shadow: 0 3px 10px rgba(248, 181, 0, 0.2);
             font-size: 0.9rem;
             height: 40px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
         }
 
         .nav-cta i {
@@ -259,6 +268,7 @@
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(248, 181, 0, 0.3);
             background: linear-gradient(135deg, #ffcc00, var(--secondary));
+            text-decoration: none;
         }
 
         .mobile-toggle {
@@ -269,6 +279,8 @@
             background: none;
             padding: 5px;
             border: none;
+            z-index: 1001;
+            line-height: 1;
         }
 
         .mobile-toggle:hover {
@@ -568,11 +580,14 @@
             width: 100%;
             max-width: 250px;
             font-size: clamp(0.85rem, 1.5vw, 1rem);
+            border: none;
+            cursor: pointer;
         }
 
         .contact-link:hover {
             background-color: var(--primary-dark);
             transform: translateY(-3px);
+            text-decoration: none;
         }
 
         .contact-link i {
@@ -665,6 +680,9 @@
             font-size: clamp(0.95rem, 1.5vw, 1rem);
             transition: var(--transition);
             background-color: rgba(255, 255, 255, 0.9);
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
         }
 
         .form-control:focus {
@@ -741,6 +759,7 @@
             color: white;
             transition: var(--transition);
             font-size: clamp(0.9rem, 1.5vw, 1rem);
+            text-decoration: none;
         }
 
         .social-icons a:hover {
@@ -781,16 +800,9 @@
         @media (max-width: 900px) {
             .nav-links {
                 display: none;
-            }
-            
-            .mobile-toggle {
-                display: block;
-            }
-            
-            .nav-links {
                 position: fixed;
                 top: 70px;
-                left: -100%;
+                left: 0;
                 width: 100%;
                 height: calc(100vh - 70px);
                 background-color: white;
@@ -804,7 +816,17 @@
                 overflow-y: auto;
             }
             
+            .mobile-toggle {
+                display: block;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
             .nav-links.active {
+                display: flex;
                 left: 0;
             }
             
@@ -821,6 +843,7 @@
                 height: auto;
                 justify-content: flex-start;
                 border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                width: 100%;
             }
             
             .nav-links a:after {
@@ -830,6 +853,8 @@
             .nav-cta {
                 justify-content: center;
                 margin-top: 10px;
+                width: 100%;
+                max-width: 300px;
             }
             
             .hero h1 {
@@ -1002,6 +1027,11 @@
             .btn, .contact-link, .nav-cta {
                 min-height: 48px;
             }
+            
+            .mobile-toggle {
+                width: 35px;
+                height: 35px;
+            }
         }
 
         @media (max-height: 600px) and (orientation: landscape) {
@@ -1043,7 +1073,7 @@
         <div class="container">
             <nav>
                 <a href="#" class="logo"><img src="image.png" alt="Home" style="width: 2rem; height: 2rem; margin-right: 10px;"> ShreeSaiWorks</a>
-                <button class="mobile-toggle" id="mobileToggle">
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
                     <i class="fas fa-bars"></i>
                 </button>
                 <ul class="nav-links" id="navLinks">
@@ -1051,7 +1081,7 @@
                     <li><a href="#container-models"><i class="fas fa-cube"></i> Container Models</a></li>
                     <li><a href="#customization"><i class="fas fa-palette"></i> Customization</a></li>
                     <li><a href="#contact-options"><i class="fas fa-address-book"></i> Contact</a></li>
-                    <li><a href="#contact-form" class="nav-cta"><i class="fas fa-file-alt"></i>Get Recommendations</a></li>
+                    <li><a href="#contact-form"></i> Get Recommendations</a></li>
                 </ul>
             </nav>
         </div>
@@ -1404,14 +1434,21 @@
     <!-- JavaScript -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Mobile Navigation Toggle
+        // Mobile Navigation Toggle - Fixed for all browsers
         const mobileToggle = document.getElementById('mobileToggle');
         const navLinks = document.getElementById('navLinks');
         
-        mobileToggle.addEventListener('click', () => {
+        mobileToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
             navLinks.classList.toggle('active');
-            mobileToggle.querySelector('i').classList.toggle('fa-bars');
-            mobileToggle.querySelector('i').classList.toggle('fa-times');
+            const icon = mobileToggle.querySelector('i');
+            if (icon.classList.contains('fa-bars')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
             
             // Prevent body scroll when menu is open on mobile
             if (window.innerWidth <= 900) {
@@ -1423,8 +1460,8 @@
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
-                mobileToggle.querySelector('i').classList.add('fa-bars');
                 mobileToggle.querySelector('i').classList.remove('fa-times');
+                mobileToggle.querySelector('i').classList.add('fa-bars');
                 document.body.style.overflow = '';
             });
         });
@@ -1434,8 +1471,8 @@
             if (window.innerWidth <= 900) {
                 if (!navLinks.contains(e.target) && !mobileToggle.contains(e.target) && navLinks.classList.contains('active')) {
                     navLinks.classList.remove('active');
-                    mobileToggle.querySelector('i').classList.add('fa-bars');
                     mobileToggle.querySelector('i').classList.remove('fa-times');
+                    mobileToggle.querySelector('i').classList.add('fa-bars');
                     document.body.style.overflow = '';
                 }
             }
@@ -1514,8 +1551,8 @@
                     // Close mobile menu if open
                     if (window.innerWidth <= 900 && navLinks.classList.contains('active')) {
                         navLinks.classList.remove('active');
-                        mobileToggle.querySelector('i').classList.add('fa-bars');
                         mobileToggle.querySelector('i').classList.remove('fa-times');
+                        mobileToggle.querySelector('i').classList.add('fa-bars');
                         document.body.style.overflow = '';
                     }
                 }
@@ -1525,19 +1562,16 @@
         // Handle window resize
         let resizeTimer;
         window.addEventListener('resize', () => {
-            document.body.classList.add('resize-animation-stopper');
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
-                document.body.classList.remove('resize-animation-stopper');
-            }, 400);
-            
-            // Close mobile menu on resize if open
-            if (window.innerWidth > 900 && navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
-                mobileToggle.querySelector('i').classList.add('fa-bars');
-                mobileToggle.querySelector('i').classList.remove('fa-times');
-                document.body.style.overflow = '';
-            }
+                // Close mobile menu on resize if open
+                if (window.innerWidth > 900 && navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    mobileToggle.querySelector('i').classList.remove('fa-times');
+                    mobileToggle.querySelector('i').classList.add('fa-bars');
+                    document.body.style.overflow = '';
+                }
+            }, 250);
         });
         
         // Prevent zoom on iOS input focus
